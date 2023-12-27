@@ -9,6 +9,9 @@ using Shop.Web;
 using Serilog;
 using Serilog.Events;
 using Microsoft.AspNetCore.Builder;
+using Shop.Infrastructure;
+using Shop.Application;
+using Shop.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,12 +29,14 @@ try
         .ConfigureContainer<ContainerBuilder>(builder =>
         {
             builder.RegisterModule(new WebModule());
+            builder.RegisterModule(new ApplicationModule());
+            builder.RegisterModule(new InfraModule(connectionString, migrationAssembly));
 
         });
 
     // Add services to the container.
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(connectionString));
+        options.UseSqlServer(connectionString, x => x.MigrationsAssembly(migrationAssembly)));
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
     builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
