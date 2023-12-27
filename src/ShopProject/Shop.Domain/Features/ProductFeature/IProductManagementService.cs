@@ -8,5 +8,6 @@ namespace Shop.Domain.Features.ProductFeature
 {
     public interface IProductManagementService
     {
+        Task CreateProductAsync(string productTitle, string description, uint price);
     }
 }

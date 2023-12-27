@@ -1,0 +1,23 @@
+﻿@model ProductCreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h3>Product Create</h3>
+
+<form asp-action="Create" asp-area="Admin" asp-controller="Product" method="post" asp-antiforgery="true">
+    <div clsss="form-group">
+        <label asp-for="ProductTitle">Product Title</label>
+        <input type="text" class="form-control" asp-for="ProductTitle" />
+    </div>
+    <div clsss="form-group">
+        <label asp-for="Description">Product Description</label>
+        <input type="text" class="form-control" asp-for="Description" />
+    </div>
+    <div clsss="form-group">
+        <label asp-for="Price">Product Price</label>
+        <input type="number" class="form-control" asp-for="Price" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create Product</button>
+    
+</form>

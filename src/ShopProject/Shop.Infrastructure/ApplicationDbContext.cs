@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Shop.Infrastructure
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext, IApplicationDbContext
     {
         private readonly string _connectionString;
         private readonly string _migrationAssembly;
@@ -12,6 +12,16 @@ namespace Shop.Infrastructure
         {
             _connectionString = connectionString;
             _migrationAssembly = migrationAssembly;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(_connectionString,
+                    x => x.MigrationsAssembly(_migrationAssembly));
+            }
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }
