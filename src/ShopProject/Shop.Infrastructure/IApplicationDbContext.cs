@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Shop.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,6 @@ namespace Shop.Infrastructure
 {
     public interface IApplicationDbContext
     {
+        DbSet<Product> Products { get; set; }
     }
 }

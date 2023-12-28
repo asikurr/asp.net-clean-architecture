@@ -11,7 +11,6 @@ using Serilog.Events;
 using Microsoft.AspNetCore.Builder;
 using Shop.Infrastructure;
 using Shop.Application;
-using Shop.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +30,6 @@ try
             builder.RegisterModule(new WebModule());
             builder.RegisterModule(new ApplicationModule());
             builder.RegisterModule(new InfraModule(connectionString, migrationAssembly));
-
         });
 
     // Add services to the container.

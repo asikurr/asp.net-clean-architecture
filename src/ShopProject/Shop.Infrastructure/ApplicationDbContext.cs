@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Shop.Domain.Entities;
 
 namespace Shop.Infrastructure
 {
@@ -13,6 +14,8 @@ namespace Shop.Infrastructure
             _connectionString = connectionString;
             _migrationAssembly = migrationAssembly;
         }
+
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
