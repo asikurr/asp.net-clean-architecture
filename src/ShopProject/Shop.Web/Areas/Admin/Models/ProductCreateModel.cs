@@ -5,7 +5,7 @@ namespace Shop.Web.Areas.Admin.Models
 {
     public class ProductCreateModel
     {
-        private readonly IProductManagementService _productManagementService;
+        private IProductManagementService _productManagementService;
         private ILifetimeScope _scope;
         public string ProductTitle { get; set; }
         public string Description { get; set; }
@@ -19,7 +19,7 @@ namespace Shop.Web.Areas.Admin.Models
         public void Resolve(ILifetimeScope scope)
         {
             _scope = scope;
-            _scope.Resolve<IProductManagementService>();
+            _productManagementService = _scope.Resolve<IProductManagementService>();
         }
         public async Task CreateProductAsync()
         {

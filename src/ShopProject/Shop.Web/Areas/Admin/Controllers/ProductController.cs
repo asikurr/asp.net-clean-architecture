@@ -31,6 +31,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             {
                 model.Resolve(_scope);
                 await model.CreateProductAsync();
+                return RedirectToAction("Index");
             }
 
             return View(model);
