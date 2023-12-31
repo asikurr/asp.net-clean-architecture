@@ -27,5 +27,11 @@ namespace Shop.Application.Features.ProductFeature
            await _unitofWork.ProductRepository.AddAsync(product);
             await _unitofWork.SaveAsync();
         }
+
+        public async Task<(IList<Product> products, int total, int totalDisplay)> 
+            GetProductPagesAsync(int pageIndex, int pageSize, string searchText, uint priceFrom, uint priceTo, string sortby)
+        {
+           return await _unitofWork.ProductRepository.GetTableDataAsync(searchText, priceFrom, priceTo,sortby, pageIndex, pageSize);
+        }
     }
 }

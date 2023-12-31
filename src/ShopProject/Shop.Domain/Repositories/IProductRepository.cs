@@ -9,6 +9,8 @@ namespace Shop.Domain.Repositories
 {
     public interface IProductRepository : IRepositoryBase<Product, Guid>
     {
+        Task<(IList<Product> records, int total, int totalDisplay)>
+             GetTableDataAsync(string searchText, uint priceFrom, uint priceTo, string sortby, int pageIndex, int pageSize);
 
     }
 }

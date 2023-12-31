@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using FirstDemo.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Web.Areas.Admin.Models;
 
@@ -22,7 +23,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         public IActionResult Create()
         {
            var model = _scope.Resolve<ProductCreateModel>();
-            return View(model);
+           return View(model);
         }
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductCreateModel model)
@@ -35,6 +36,14 @@ namespace Shop.Web.Areas.Admin.Controllers
             }
 
             return View(model);
+        }
+        [HttpPost]
+        public async Task<JsonResult> GetProducts(ProductListModel model)
+        {
+            var dataTablesUtility = new DataTablesAjaxRequestUtility(Request);
+            model.Resolve(_scope);
+            var data = await model.GetProductPagesAsync(dataTablesUtility);
+            return Json(data);
         }
     }
 }
