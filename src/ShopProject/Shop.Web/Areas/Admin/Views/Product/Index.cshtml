@@ -42,14 +42,14 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label>Course Fees From</label>
-                                        <input type="text" asp-for="ProductSearch.FromPrice" class="form-control" />
+                                        <label>Product Price From</label>
+                                        <input type="number" asp-for="ProductSearch.FromPrice" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label>Course Fees To</label>
-                                        <input type="text" asp-for="ProductSearch.ToPrice" class="form-control" />
+                                        <label>Product Price To</label>
+                                        <input type="number" asp-for="ProductSearch.ToPrice" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -62,13 +62,13 @@
                 </div>
             </div>
 
-
+            <partial name="_ModalPartial" />
                         <div class="col-12">
                            
 
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">DataTable with default features</h3>
+                                    <h3 class="card-title">Product List</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -78,12 +78,18 @@
                                                 <th>Product Title</th>
                                                 <th>Description</th>
                                                 <th>Price</th>
-                                                <th>Actions</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                          
-                                        </tbody>
+                                     
+                                        <tfoot>
+                                            <tr>
+                                                <th>Product Title</th>
+                                                <th>Description</th>
+                                                <th>Price</th>
+                                                <th>Action</th>
+                                            </tr>
+                                         </tfoot>
                                       
                                     </table>
                                 </div>
@@ -138,31 +144,33 @@
                     data: function (d) {
                         d.ProductSearch = {
                             Title: $("#ProductSearch_Title").val(),
-                            FeesFrom: $("#ProductSearch_FromPrice").val() === "" ? null : $("#ProductSearch_FromPrice").val(),
-                            FeesTo: $("#ProductSearch_ToPrice").val() === "" ? null : $("#ProductSearch_ToPrice").val()
+                            FromPrice: $("#ProductSearch_FromPrice").val() === "" ? null : $("#ProductSearch_FromPrice").val(),
+                            ToPrice: $("#ProductSearch_ToPrice").val() === "" ? null : $("#ProductSearch_ToPrice").val()
                         };
                         //console.log(d.SearchItem);
                     },
                 },
+
                 columnDefs: [
                     {
                         orderable: false,
                         targets: 3,
                         render: function (data, type, row) {
-                        return 
-                        `<button type="submit" class="btn btn-info btn-sm" onclick="window.location.href='/admin/product/update/${data}'" value='${data}'>
-                            <i class="fas fa-pencil-alt">
-                            </i>
-                            Edit
-                        </button>
-                        <button type="submit" class="btn btn-danger btn-sm show-bs-modal" data-id='${data}' value='${data}'>
-                            <i class="fas fa-trash">
-                            </i>
-                            Delete
-                        </button>`;
+                            return `<button type="submit" class="btn btn-info btn-sm" onclick="window.location.href='/admin/product/update/${data}'" value='${data}'>
+                                            <i class="fas fa-pencil-alt">
+                                            </i>
+                                            Edit
+                                        </button>
+                                        <button type="submit" class="btn btn-danger btn-sm show-bs-modal" data-id='${data}' value='${data}'>
+                                            <i class="fas fa-trash">
+                                            </i>
+                                            Delete
+                                        </button>`;
                         }
                     }
                 ],
+
+
                 "responsive": true, "lengthChange": false, "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#products_wrapper .col-md-6:eq(0)');
@@ -170,6 +178,20 @@
             $("#searchButton").click(function () {
                 $('#products').DataTable().ajax.reload(null, false);
             });
+
+            $('#products').on('click', '.show-bs-modal', function (event) {
+                var id = $(this).data("id");
+                var modal = $("#modal-default");
+                modal.find('.modal-body p').text('Are you sure you want to delete this record?');
+                $("#deleteId").val(id);
+                $("#deleteForm").attr("action", "/admin/product/delete");
+                modal.modal('show');
+            });
+
+            $("#deleteButton").click(function () {
+                $("#deleteForm").submit();
+            });
+
         });
     </script>
     }

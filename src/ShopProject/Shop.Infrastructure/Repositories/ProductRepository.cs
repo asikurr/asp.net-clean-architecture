@@ -22,7 +22,7 @@ namespace Shop.Infrastructure.Repositories
             Expression<Func<Product, bool>> expression = null;
             if (!string.IsNullOrWhiteSpace(searchText))
             {
-                expression = x => x.ProductTitle.Equals(searchText) && 
+                expression = x => x.ProductTitle.Contains(searchText) && 
                 (x.Price >= priceFrom && x.Price <= priceTo );
             }
             return await GetDynamicAsync(expression, sortby, null,pageIndex, pageSize, true);

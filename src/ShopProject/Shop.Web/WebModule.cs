@@ -8,6 +8,8 @@ namespace Shop.Web
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ProductCreateModel>().AsSelf();
+            builder.RegisterType<ProductUpdateModel>().AsSelf();
+            builder.RegisterType<ProductListModel>().AsSelf();
             base.Load(builder);
         }
     }

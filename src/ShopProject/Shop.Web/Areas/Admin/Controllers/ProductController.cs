@@ -45,5 +45,33 @@ namespace Shop.Web.Areas.Admin.Controllers
             var data = await model.GetProductPagesAsync(dataTablesUtility);
             return Json(data);
         }
+        public async Task<IActionResult> Update(Guid id)
+        {
+            var model = _scope.Resolve<ProductUpdateModel>();
+            await model.GetProductByIdAsync(id);
+            return View(model);
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(ProductUpdateModel model)
+        {
+            model.Resolve(_scope);
+            if (ModelState.IsValid)
+            {
+                await model.ProductUpdateAsync();
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var model = _scope.Resolve<ProductListModel>();
+            if (ModelState.IsValid)
+            {
+               await model.DeleteProductAsync(id);
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
     }
 }

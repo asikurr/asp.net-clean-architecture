@@ -33,5 +33,30 @@ namespace Shop.Application.Features.ProductFeature
         {
            return await _unitofWork.ProductRepository.GetTableDataAsync(searchText, priceFrom, priceTo,sortby, pageIndex, pageSize);
         }
+
+
+        public async Task<Product> GetProductAsync(Guid id)
+        {
+            return await _unitofWork.ProductRepository.GetByIdAsync(id);
+            
+        }
+
+        public async Task UpdateProductAsync(Guid id, string title, string description, uint price)
+        {
+            var data = await GetProductAsync(id);
+            if (data is not null)
+            {
+                data.ProductTitle = title;
+                data.Description = description;
+                data.Price = price;
+            }
+            await _unitofWork.SaveAsync();
+        }
+
+        public async Task DeleteProductAsync(Guid id)
+        {
+            await _unitofWork.ProductRepository.RemoveAsync(id);
+            await _unitofWork.SaveAsync();
+        }
     }
 }

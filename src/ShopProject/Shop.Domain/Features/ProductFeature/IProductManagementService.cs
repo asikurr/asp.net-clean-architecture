@@ -12,5 +12,9 @@ namespace Shop.Domain.Features.ProductFeature
         Task CreateProductAsync(string productTitle, string description, uint price);
         Task <(IList<Product> products, int total, int totalDisplay)>
             GetProductPagesAsync(int pageIndex, int pageSize, string searchText, uint priceFrom, uint priceTo, string sortby);
+        Task<Product> GetProductAsync(Guid id);
+        Task UpdateProductAsync(Guid id, string title,  string description, uint price);
+        Task DeleteProductAsync(Guid id);
+
     }
 }

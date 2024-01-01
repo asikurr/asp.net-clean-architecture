@@ -47,5 +47,10 @@ namespace Shop.Web.Areas.Admin.Models
                 )
             };
         }
+
+        public async Task DeleteProductAsync(Guid id)
+        {
+            await _productService.DeleteProductAsync(id);
+        }
     }
 }
